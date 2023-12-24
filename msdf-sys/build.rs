@@ -51,7 +51,11 @@ fn main() {
         );
     } else {
         println!("cargo:rustc-link-search=native={}/build", dst.display());
-        println!("cargo:rustc-link-lib=dylib=stdc++");
+        if cfg!(target_os = "macos") {
+            println!("cargo:rustc-link-lib=dylib=c++");
+        } else {
+            println!("cargo:rustc-link-lib=dylib=stdc++");
+        }
     }
 
     let bindings = bindgen::Builder::default()
